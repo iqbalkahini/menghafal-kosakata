@@ -192,13 +192,21 @@ export default function KosakataPage() {
 
             <main className="container mx-auto max-w-5xl px-4 sm:px-6 py-8">
                 {/* Page Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tighter bg-gradient-to-br from-foreground to-foreground/70 dark:from-white dark:to-white/60 text-transparent bg-clip-text mb-2">
-                        Katalog Kosakata Lengkap
-                    </h1>
-                    <p className="text-muted-foreground">
-                        Jelajahi dan cari ribuan perbendaharaan kata bahasa Inggris beserta artinya.
-                    </p>
+                <div className="mb-8 flex flex-col items-center justify-between gap-2 md:flex-row">
+                    <div>
+                        <h1 className="text-3xl md:text-4xl font-bold tracking-tighter bg-gradient-to-br from-foreground to-foreground/70 dark:from-white dark:to-white/60 text-transparent bg-clip-text mb-2">
+                            Katalog Kosakata Lengkap
+                        </h1>
+                        <p className="text-muted-foreground">
+                            Jelajahi dan cari ribuan perbendaharaan kata bahasa Inggris beserta artinya.
+                        </p>
+                    </div>
+
+                    <Link href="/quiz" className="w-full md:w-auto">
+                        <Button variant="default" className="gap-2 w-full">
+                            Ayo main Quiz
+                        </Button>
+                    </Link>
                 </div>
 
                 {/* Search and Filters */}
