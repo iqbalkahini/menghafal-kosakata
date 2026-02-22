@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Brain, Shuffle, Trophy, ArrowRight, Sparkles, BookA, Target, Layers } from "lucide-react";
 import { useRef } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const heroRef = useRef(null);
@@ -54,7 +55,9 @@ export default function Home() {
           <nav className="flex items-center gap-4">
             <Button variant="ghost" size="sm" className="hidden sm:inline-flex text-muted-foreground hover:text-foreground">Fitur</Button>
             <Button variant="ghost" size="sm" className="hidden sm:inline-flex text-muted-foreground hover:text-foreground">Cara Kerja</Button>
-            <Button size="sm" className="rounded-lg shadow-sm">Masuk</Button>
+            <Link href="/kosakata">
+              <Button size="sm" className="rounded-lg shadow-sm">Daftar Kosakata</Button>
+            </Link>
           </nav>
         </div>
       </header>
