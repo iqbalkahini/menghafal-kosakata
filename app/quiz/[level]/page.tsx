@@ -26,6 +26,7 @@ export default function QuizInterface() {
     const [questions, setQuestions] = useState<any[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [score, setScore] = useState(0);
+    const [incorrectWords, setIncorrectWords] = useState<any[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [isFinished, setIsFinished] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -86,6 +87,15 @@ export default function QuizInterface() {
         const isCorrect = answer === questions[currentIndex].correctWord.indonesia;
         if (isCorrect) {
             setScore(s => s + 1);
+        } else {
+            setIncorrectWords(prev => [
+                ...prev,
+                {
+                    english: questions[currentIndex].correctWord.english,
+                    correctIndonesia: questions[currentIndex].correctWord.indonesia,
+                    answeredIndonesia: answer
+                }
+            ]);
         }
 
         setTimeout(() => {
@@ -97,6 +107,27 @@ export default function QuizInterface() {
             }
         }, 1200); // Shorter wait to accommodate 1000 questions (1.2s!)
     };
+
+    useEffect(() => {
+        if (isFinished) {
+            try {
+                const historyStr = localStorage.getItem('quizHistory');
+                const history = historyStr ? JSON.parse(historyStr) : [];
+                const newEntry = {
+                    id: Date.now().toString(),
+                    date: new Date().toISOString(),
+                    level: level,
+                    correctCount: score,
+                    incorrectCount: totalQuestions - score,
+                    incorrectWords: incorrectWords,
+                    totalQuestions: totalQuestions
+                };
+                localStorage.setItem('quizHistory', JSON.stringify([newEntry, ...history]));
+            } catch (error) {
+                console.error("Failed to save history to localStorage", error);
+            }
+        }
+    }, [isFinished, level, score, totalQuestions, incorrectWords]);
 
     if (loading) {
         return (
@@ -141,11 +172,18 @@ export default function QuizInterface() {
                             <Button onClick={() => window.location.reload()} className="w-full" size="lg">
                                 <RotateCcw className="w-4 h-4 mr-2" /> Main Lagi
                             </Button>
-                            <Link href="/quiz" className="w-full">
-                                <Button variant="outline" className="w-full" size="lg">
-                                    <ArrowLeft className="w-4 h-4 mr-2" /> Pilih Level Lain
-                                </Button>
-                            </Link>
+                            <div className="grid grid-cols-2 gap-3 w-full">
+                                <Link href="/quiz" className="w-full">
+                                    <Button variant="outline" className="w-full" size="lg">
+                                        <ArrowLeft className="w-4 h-4 mr-2" /> Level Lain
+                                    </Button>
+                                </Link>
+                                <Link href="/beranda" className="w-full">
+                                    <Button variant="secondary" className="w-full" size="lg">
+                                        Riwayat
+                                    </Button>
+                                </Link>
+                            </div>
                         </CardFooter>
                     </Card>
                 </motion.div>
